@@ -1,0 +1,10 @@
+CXX = g++ -std=c++11
+CFLAGS = -I/usr/include -I. `pkg-config --cflags opencv`
+LDFLAGS = -lglut  -lGL -lGLU -lm `pkg-config --libs opencv`
+
+main: 
+	${CXX} ${CFLAGS} Ipcamx1a.cpp  -o camx1a ${LDFLAGS}
+	
+clean:
+	rm -rf *.o
+	rm -rf camx1a
