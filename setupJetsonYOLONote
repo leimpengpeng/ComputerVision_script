@@ -1,0 +1,58 @@
+LIBS+= -L/usr/lib/aarch64-linux-gnu/tegra `pkg-config --libs $(PKGS)`
+
+install opencv 
+ $ tar xpvf DeepStream_SDK_on_Jetson_1.0_pre-release.tbz2
+ $ sudo tar xpvf deepstream_sdk_on_jetson.tbz2 -C /
+ $ sudo tar xpvf deepstream_sdk_on_jetson_models.tbz2 -C /
+ $ sudo tar xpvf R28.1_patch_TX2.tbz2 -C /
+ $ sudo ldconfig
+ 
+ 
+ $ nvgstiva-app -c ${HOME}/configs/PGIE-FP16-CarType-CarMake-CarColor.txt
+ 
+ 
+ $ sudo rm -rf ${HOME}/.cache/*
+ 
+ $ sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev \
+     libegl1-mesa-dev
+ $ sudo ln -sf /usr/lib/aarch64-linux-gnu/tegra-egl/libEGL.so.1 \
+     /usr/lib/aarch64-linux-gnu/libEGL.so
+     
+$ cd gst-dsexample_sources
+$ make && sudo make install
+
+$ sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
+$ sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libnvid_mapper.so.1.0.0 \
+             /usr/lib/aarch64-linux-gnu/libnvid_mapper.so
+             
+$ cd nvgstiva-app_sources/nvgstiva-app
+$ make
+$ ./nvgstiva-app -c ${HOME}/configs/PGIE-FP16-CarType-CarMake-CarColor.txt
+
+
+$ nvgstiva-app-gui -c /home/nvidia/configs/PGIE-FP16-CarType-CarMake-CarColor.txt -g /home/nvidia/configs/gui_cfg.txt
+
+sudo dpkg --configure -a
+sudo apt install ubuntu-restricted-extras
+
+
+https://github.com/jetsonhacks/buildLibrealsense2TX/blob/master/installLibrealsense.sh
+https://github.com/jetsonhacks/installROSTX2
+https://github.com/jetsonhacks/installRealSenseROSTX2
+
+https://www.ncnynl.com/archives/201706/1775.html
+https://www.ncnynl.com/archives/201706/1758.html
+
+
+### set TX2 to max performance mode
+$ sudo nvpmodel -m 0
+$ sudo ~/jetson_clocks.sh
+### download the pre-trained weights and run YOLOv3
+$ wget https://pjreddie.com/media/files/yolov3.weights
+$ ./darknet detector demo cfg/coco.data cfg/yolov3.cfg yolov3.weights \
+                          traffic.mp4
+
+$ cd /home/nvidia/Desktop/yolo/darknet
+
+./darknet detector demo cfg/coco.data cfg/yolov2.cfg yolov2.weights -c 1 "nvcamerasrc ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720,format=(string)I420, framerate=(fraction)30/1 ! nvvidconv flip-method=0 ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink"
+
